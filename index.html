@@ -1,0 +1,735 @@
+<!doctype html>
+<html lang="pt-BR">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+
+  <title>Walter Neto | Portfólio</title>
+  <meta
+    name="description"
+    content="Portfólio pessoal de Walter Neto, estudante de Desenvolvimento de Sistemas e desenvolvedor web."
+  />
+
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link
+    href="https://fonts.googleapis.com/css2?family=Instrument+Serif:ital@0;1&family=Space+Grotesk:wght@400;500;600;700&display=swap"
+    rel="stylesheet"
+  >
+
+  <style>
+    :root {
+      --bg: #fffdf2;
+      --bg-soft: #f4f1e8;
+      --paper: rgba(255, 253, 242, 0.78);
+      --text: #1f1b16;
+      --muted: #766d60;
+      --line: rgba(31, 27, 22, 0.12);
+      --accent: #b96a3c;
+      --accent-dark: #7a3f25;
+      --dark: #1f1b16;
+      --radius: 22px;
+      --serif: "Instrument Serif", Georgia, serif;
+      --sans: "Space Grotesk", system-ui, sans-serif;
+    }
+
+    * {
+      box-sizing: border-box;
+      margin: 0;
+      padding: 0;
+    }
+
+    html {
+      scroll-behavior: smooth;
+    }
+
+    body {
+      background:
+        radial-gradient(circle at top left, rgba(185, 106, 60, 0.10), transparent 390px),
+        linear-gradient(135deg, var(--bg), var(--bg-soft));
+      color: var(--text);
+      font-family: var(--sans);
+      line-height: 1.6;
+    }
+
+    a {
+      color: inherit;
+      text-decoration: none;
+    }
+
+    .container {
+      width: min(100% - 32px, 1040px);
+      margin: 0 auto;
+    }
+
+    header {
+      position: sticky;
+      top: 0;
+      z-index: 10;
+      background: rgba(255, 253, 242, 0.82);
+      backdrop-filter: blur(16px);
+      border-bottom: 1px solid var(--line);
+    }
+
+    nav {
+      min-height: 68px;
+      display: flex;
+      align-items: center;
+      justify-content: space-between;
+      gap: 16px;
+    }
+
+    .brand {
+      display: flex;
+      align-items: center;
+      gap: 10px;
+      font-weight: 700;
+      letter-spacing: -0.03em;
+    }
+
+    .brand-mark {
+      width: 38px;
+      height: 38px;
+      border-radius: 999px;
+      background: var(--dark);
+      color: var(--bg);
+      display: grid;
+      place-items: center;
+      font-size: 13px;
+    }
+
+    .nav-links {
+      display: flex;
+      align-items: center;
+      gap: 18px;
+      list-style: none;
+      color: var(--muted);
+      font-size: 14px;
+      font-weight: 600;
+    }
+
+    .nav-links a {
+      transition: 0.2s;
+    }
+
+    .nav-links a:hover {
+      color: var(--accent-dark);
+    }
+
+    .hero {
+      padding: 84px 0 58px;
+    }
+
+    .hero-grid {
+      display: grid;
+      grid-template-columns: 1.05fr 0.95fr;
+      gap: 42px;
+      align-items: end;
+    }
+
+    .eyebrow {
+      color: var(--accent-dark);
+      font-size: 13px;
+      font-weight: 700;
+      text-transform: uppercase;
+      letter-spacing: 0.12em;
+      margin-bottom: 14px;
+    }
+
+    h1 {
+      font-family: var(--serif);
+      font-size: clamp(58px, 9vw, 108px);
+      line-height: 0.9;
+      letter-spacing: -0.065em;
+      font-weight: 400;
+      max-width: 760px;
+    }
+
+    h1 em {
+      color: var(--accent-dark);
+      font-style: italic;
+    }
+
+    .hero-text {
+      color: var(--muted);
+      max-width: 580px;
+      margin-top: 24px;
+      font-size: 17px;
+    }
+
+    .hero-card {
+      border: 1px solid var(--line);
+      background: var(--paper);
+      border-radius: 28px;
+      padding: 28px;
+    }
+
+    .hero-card h2 {
+      font-size: 18px;
+      letter-spacing: -0.04em;
+      margin-bottom: 12px;
+    }
+
+    .hero-card p {
+      color: var(--muted);
+      font-size: 15px;
+    }
+
+    .hero-list {
+      display: grid;
+      gap: 12px;
+      margin-top: 24px;
+    }
+
+    .hero-list div {
+      display: flex;
+      justify-content: space-between;
+      gap: 16px;
+      padding-bottom: 12px;
+      border-bottom: 1px solid var(--line);
+      font-size: 14px;
+    }
+
+    .hero-list span {
+      color: var(--muted);
+    }
+
+    .hero-list strong {
+      text-align: right;
+    }
+
+    .section {
+      padding: 54px 0;
+    }
+
+    .section-head {
+      display: grid;
+      grid-template-columns: 0.8fr 1.2fr;
+      gap: 28px;
+      align-items: end;
+      padding-bottom: 24px;
+      border-bottom: 1px solid var(--line);
+      margin-bottom: 24px;
+    }
+
+    .section-number {
+      color: var(--accent-dark);
+      font-size: 13px;
+      font-weight: 700;
+      letter-spacing: 0.12em;
+      text-transform: uppercase;
+    }
+
+    .section-title {
+      font-family: var(--serif);
+      font-size: clamp(42px, 6vw, 74px);
+      line-height: 0.92;
+      letter-spacing: -0.055em;
+      font-weight: 400;
+    }
+
+    .section-title em {
+      color: var(--accent-dark);
+    }
+
+    .about-text {
+      color: var(--muted);
+      font-size: 17px;
+      max-width: 780px;
+    }
+
+    .about-text strong {
+      color: var(--text);
+    }
+
+    .simple-grid {
+      display: grid;
+      grid-template-columns: repeat(3, 1fr);
+      gap: 14px;
+    }
+
+    .simple-card {
+      border: 1px solid var(--line);
+      background: var(--paper);
+      border-radius: var(--radius);
+      padding: 22px;
+      min-height: 180px;
+    }
+
+    .simple-card h3 {
+      font-size: 18px;
+      line-height: 1.1;
+      letter-spacing: -0.04em;
+      margin-bottom: 12px;
+    }
+
+    .simple-card p {
+      color: var(--muted);
+      font-size: 14px;
+    }
+
+    .study-list {
+      display: grid;
+      gap: 12px;
+    }
+
+    .study-item {
+      display: grid;
+      grid-template-columns: 180px 1fr;
+      gap: 20px;
+      border: 1px solid var(--line);
+      background: var(--paper);
+      border-radius: var(--radius);
+      padding: 22px;
+    }
+
+    .study-time {
+      font-family: var(--serif);
+      color: var(--accent-dark);
+      font-size: 34px;
+      line-height: 0.9;
+      letter-spacing: -0.05em;
+    }
+
+    .study-item h3 {
+      font-size: 19px;
+      letter-spacing: -0.04em;
+      margin-bottom: 6px;
+    }
+
+    .study-item p {
+      color: var(--muted);
+      font-size: 14px;
+    }
+
+    .experience-list {
+      display: grid;
+      gap: 10px;
+    }
+
+    .experience-item {
+      display: grid;
+      grid-template-columns: 95px 1fr;
+      gap: 16px;
+      padding: 18px 0;
+      border-bottom: 1px solid var(--line);
+    }
+
+    .experience-year {
+      color: var(--accent-dark);
+      font-weight: 700;
+    }
+
+    .experience-item h3 {
+      font-size: 18px;
+      letter-spacing: -0.04em;
+    }
+
+    .experience-item p {
+      color: var(--muted);
+      margin-top: 4px;
+      font-size: 14px;
+    }
+
+    .result {
+      display: inline-block;
+      margin-top: 8px;
+      color: var(--accent-dark);
+      font-size: 13px;
+      font-weight: 700;
+    }
+
+    .project-grid {
+      display: grid;
+      grid-template-columns: repeat(5, 1fr);
+      gap: 12px;
+    }
+
+    .project-card {
+      min-height: 220px;
+      border: 1px solid var(--line);
+      background: var(--paper);
+      border-radius: var(--radius);
+      padding: 18px;
+      display: flex;
+      flex-direction: column;
+      justify-content: space-between;
+      transition: 0.2s;
+    }
+
+    .project-card:hover {
+      transform: translateY(-4px);
+      background: rgba(255, 253, 242, 0.92);
+    }
+
+    .project-card.featured {
+      background: var(--dark);
+      color: var(--bg);
+    }
+
+    .project-card.featured p,
+    .project-card.featured span {
+      color: rgba(255, 253, 242, 0.68);
+    }
+
+    .project-card span {
+      color: var(--accent-dark);
+      font-size: 12px;
+      font-weight: 700;
+      text-transform: uppercase;
+      letter-spacing: 0.10em;
+    }
+
+    .project-card h3 {
+      margin-top: 12px;
+      font-size: 20px;
+      letter-spacing: -0.05em;
+      line-height: 1.05;
+    }
+
+    .project-card p {
+      color: var(--muted);
+      font-size: 13px;
+      margin-top: 8px;
+    }
+
+    .project-btn {
+      margin-top: 18px;
+      min-height: 40px;
+      border-radius: 999px;
+      display: inline-flex;
+      align-items: center;
+      justify-content: center;
+      background: var(--dark);
+      color: var(--bg);
+      font-size: 13px;
+      font-weight: 700;
+      transition: 0.2s;
+    }
+
+    .featured .project-btn {
+      background: var(--bg);
+      color: var(--dark);
+    }
+
+    .project-btn:hover {
+      transform: translateY(-1px);
+      background: var(--accent-dark);
+      color: var(--bg);
+    }
+
+    .final {
+      border-top: 1px solid var(--line);
+      padding: 32px 0 46px;
+      color: var(--muted);
+      font-size: 13px;
+    }
+
+    .final .container {
+      display: flex;
+      justify-content: space-between;
+      gap: 16px;
+      flex-wrap: wrap;
+    }
+
+    @media (max-width: 980px) {
+      .hero-grid,
+      .section-head {
+        grid-template-columns: 1fr;
+      }
+
+      .simple-grid {
+        grid-template-columns: 1fr;
+      }
+
+      .project-grid {
+        grid-template-columns: repeat(2, 1fr);
+      }
+    }
+
+    @media (max-width: 720px) {
+      .nav-links {
+        display: none;
+      }
+
+      .hero {
+        padding: 56px 0 38px;
+      }
+
+      .study-item,
+      .experience-item {
+        grid-template-columns: 1fr;
+      }
+
+      .project-grid {
+        grid-template-columns: 1fr;
+      }
+    }
+  </style>
+</head>
+
+<body>
+  <header>
+    <div class="container">
+      <nav>
+        <a href="#" class="brand">
+          <div class="brand-mark">WN</div>
+          <span>Walter Neto</span>
+        </a>
+
+        <ul class="nav-links">
+          <li><a href="#sobre">Sobre</a></li>
+          <li><a href="#atuacao">Atuação</a></li>
+          <li><a href="#experiencias">Experiências</a></li>
+          <li><a href="#projetos">Exemplos</a></li>
+        </ul>
+      </nav>
+    </div>
+  </header>
+
+  <main>
+    <section class="hero">
+      <div class="container hero-grid">
+        <div>
+          <div class="eyebrow">Portfólio pessoal</div>
+          <h1>Walter Neto, desenvolvedor web em <em>formação.</em></h1>
+          <p class="hero-text">
+            Crio interfaces, páginas e sistemas web com foco em organização, usabilidade e funcionamento.
+            Este portfólio reúne o que estudo, as áreas em que atuo e alguns modelos de sites que desenvolvo.
+          </p>
+        </div>
+
+        <aside class="hero-card">
+          <h2>Resumo</h2>
+          <p>
+            Estudante de Desenvolvimento de Sistemas, com base em programação web, banco de dados,
+            Python, Arduino, automação e robótica.
+          </p>
+
+          <div class="hero-list">
+            <div>
+              <span>Formação atual</span>
+              <strong>IFAL · Desenvolvimento de Sistemas</strong>
+            </div>
+            <div>
+              <span>Foco principal</span>
+              <strong>Web & Sistemas</strong>
+            </div>
+            <div>
+              <span>Local</span>
+              <strong>Marechal Deodoro · AL</strong>
+            </div>
+          </div>
+        </aside>
+      </div>
+    </section>
+
+    <section class="section" id="sobre">
+      <div class="container">
+        <div class="section-head">
+          <div class="section-number">01 · Sobre</div>
+          <h2 class="section-title">O que eu <em>faço.</em></h2>
+        </div>
+
+        <p class="about-text">
+          Sou estudante apaixonado por tecnologia, com conhecimentos em <strong>HTML, CSS, JavaScript e Python</strong>.
+          Tenho experiência com projetos de <strong>Arduino, mecatrônica e automação</strong>, além de noções e estudo
+          de <strong>banco de dados</strong> para desenvolver sistemas mais organizados e funcionais.
+        </p>
+      </div>
+    </section>
+
+    <section class="section" id="atuacao">
+      <div class="container">
+        <div class="section-head">
+          <div class="section-number">02 · Atuação</div>
+          <h2 class="section-title">Áreas que eu <em>estudo.</em></h2>
+        </div>
+
+        <div class="study-list">
+          <article class="study-item">
+            <div class="study-time">2023</div>
+            <div>
+              <h3>HTML e CSS</h3>
+              <p>
+                Base para construção de páginas, estrutura semântica, responsividade, organização visual
+                e criação de interfaces para portfólio, sites institucionais e landing pages.
+              </p>
+            </div>
+          </article>
+
+          <article class="study-item">
+            <div class="study-time">2024</div>
+            <div>
+              <h3>JavaScript</h3>
+              <p>
+                Uso de interações em sites, menus, filtros, validações, carrinho de compras,
+                favoritos e funções que tornam a página mais dinâmica.
+              </p>
+            </div>
+          </article>
+
+          <article class="study-item">
+            <div class="study-time">2025</div>
+            <div>
+              <h3>Banco de Dados</h3>
+              <p>
+                Estudo de fundamentos de banco de dados para criar sistemas mais organizados,
+                com cadastro, armazenamento, consulta de informações e estrutura de dados.
+              </p>
+            </div>
+          </article>
+
+          <article class="study-item">
+            <div class="study-time">2025+</div>
+            <div>
+              <h3>Python e Sistemas</h3>
+              <p>
+                Estudo de lógica, programação, automações e desenvolvimento de sistemas,
+                conectando front-end, dados e funcionalidades.
+              </p>
+            </div>
+          </article>
+
+          <article class="study-item">
+            <div class="study-time">Projetos</div>
+            <div>
+              <h3>Arduino, Robótica e Automação</h3>
+              <p>
+                Experiência prática com sensores, atuadores, programação de robôs e protótipos,
+                principalmente em projetos e competições de tecnologia.
+              </p>
+            </div>
+          </article>
+        </div>
+      </div>
+    </section>
+
+    <section class="section" id="experiencias">
+      <div class="container">
+        <div class="section-head">
+          <div class="section-number">03 · Experiências</div>
+          <h2 class="section-title">Projetos e <em>conquistas.</em></h2>
+        </div>
+
+        <div class="experience-list">
+          <article class="experience-item">
+            <div class="experience-year">2026</div>
+            <div>
+              <h3>IFAL · Desenvolvimento de Sistemas</h3>
+              <p>Formação técnica atual, com foco em programação, banco de dados e desenvolvimento de aplicações.</p>
+            </div>
+          </article>
+
+          <article class="experience-item">
+            <div class="experience-year">2026</div>
+            <div>
+              <h3>FIRST LEGO League</h3>
+              <p>Competição com engenharia, física, programação de robôs, pesquisa, design e comunicação.</p>
+              <span class="result">Excelência em engenharia</span>
+            </div>
+          </article>
+
+          <article class="experience-item">
+            <div class="experience-year">2025</div>
+            <div>
+              <h3>Desafio Liga Jovem</h3>
+              <p>Competição nacional envolvendo tecnologia, empreendedorismo, inovação, pesquisa e comunicação.</p>
+              <span class="result">2º lugar na final</span>
+            </div>
+          </article>
+
+          <article class="experience-item">
+            <div class="experience-year">2025</div>
+            <div>
+              <h3>OBMEP</h3>
+              <p>Participação na Olimpíada Brasileira de Matemática das Escolas Públicas.</p>
+              <span class="result">2ª fase</span>
+            </div>
+          </article>
+
+          <article class="experience-item">
+            <div class="experience-year">2023</div>
+            <div>
+              <h3>OAM</h3>
+              <p>Participação na Olimpíada Alagoana de Matemática.</p>
+              <span class="result">2ª fase</span>
+            </div>
+          </article>
+
+          <article class="experience-item">
+            <div class="experience-year">Cursos</div>
+            <div>
+              <h3>Curso em Vídeo e IFRS</h3>
+              <p>HTML, CSS, JavaScript, Banco de Dados 1, Python 1 e Manutenção de Computadores.</p>
+            </div>
+          </article>
+        </div>
+      </div>
+    </section>
+
+    <section class="section" id="projetos">
+      <div class="container">
+        <div class="section-head">
+          <div class="section-number">04 · Exemplos</div>
+          <h2 class="section-title">Modelos de sites.</h2>
+        </div>
+
+        <div class="project-grid">
+          <article class="project-card">
+            <div>
+              <span>01</span>
+              <h3>One Page</h3>
+              <p>Site de página única para apresentar uma ideia, serviço ou projeto.</p>
+            </div>
+            <a class="project-btn" href="https://ualter-lab.github.io/WnBugdroid/" target="_parent" rel="noopener noreferrer">Ver exemplo</a>
+          </article>
+
+          <article class="project-card featured">
+            <div>
+              <span>02</span>
+              <h3>Landing Page</h3>
+              <p>Página focada em apresentar uma solução, explicar benefícios e gerar contato.</p>
+            </div>
+            <a class="project-btn" href="templates/Page-main/index.html" target="_parent" rel="noopener noreferrer">Ver exemplo</a>
+          </article>
+
+          <article class="project-card">
+            <div>
+              <span>03</span>
+              <h3>Institucional</h3>
+              <p>Site para apresentar uma empresa, escola, laboratório ou organização.</p>
+            </div>
+            <a class="project-btn" href="templates/ifmaker_lab_static_portfolio.html" target="_parent" rel="noopener noreferrer">Ver exemplo</a>
+          </article>
+
+          <article class="project-card featured">
+            <div>
+              <span>04</span>
+              <h3>E-commerce</h3>
+              <p>Loja virtual com catálogo, busca, filtros, carrinho e finalização.</p>
+            </div>
+            <a class="project-btn" href="templates/ecommerce_wnstore_completo.html" target="_parent" rel="noopener noreferrer">Ver exemplo</a>
+          </article>
+
+          <article class="project-card">
+            <div>
+              <span>05</span>
+              <h3>Sistema de Gestão</h3>
+              <p>Sistema com login, painel, cadastros, controle e banco de dados.</p>
+            </div>
+            <a class="project-btn" href="templates/dashboard_vendas_dark.html" target="_parent" rel="noopener noreferrer">Ver exemplo</a>
+          </article>
+        </div>
+      </div>
+    </section>
+  </main>
+
+  <footer class="final">
+    <div class="container">
+      <span>Walter Avelino de Alcântara Neto · Desenvolvimento de Sistemas</span>
+      <span>Portfólio pessoal · 2026</span>
+    </div>
+  </footer>
+</body>
+</html>

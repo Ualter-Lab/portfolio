@@ -1,0 +1,940 @@
+<!DOCTYPE html>
+<html lang="pt-BR">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Sistema de Gestão de Vendas</title>
+
+    <style>
+        :root {
+            --bg: #121826;
+            --bg-2: #182033;
+            --card: #202a41;
+            --card-2: #25314d;
+            --text: #f5f7fb;
+            --muted: #9aa7c2;
+            --line: rgba(255, 255, 255, 0.09);
+            --green: #52e0a4;
+            --red: #ff6b7a;
+            --blue: #7c9cff;
+            --yellow: #ffd166;
+            --shadow: 0 20px 60px rgba(0, 0, 0, 0.28);
+            --radius: 22px;
+        }
+
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+        }
+
+        body {
+            min-height: 100vh;
+            font-family: Arial, Helvetica, sans-serif;
+            color: var(--text);
+            background:
+                radial-gradient(circle at top left, rgba(124, 156, 255, 0.22), transparent 34%),
+                radial-gradient(circle at top right, rgba(82, 224, 164, 0.10), transparent 30%),
+                linear-gradient(135deg, #101522 0%, #121826 45%, #0f1420 100%);
+        }
+
+        header {
+            width: min(1450px, calc(100% - 32px));
+            margin: 18px auto 0;
+            padding: 22px 24px;
+            border: 1px solid var(--line);
+            border-radius: var(--radius);
+            background: rgba(32, 42, 65, 0.72);
+            backdrop-filter: blur(14px);
+            box-shadow: var(--shadow);
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            gap: 16px;
+        }
+
+        header h1 {
+            font-size: clamp(22px, 3vw, 34px);
+            letter-spacing: -1px;
+        }
+
+        header p {
+            color: var(--muted);
+            margin-top: 6px;
+        }
+
+        .status-pill {
+            padding: 10px 14px;
+            border-radius: 999px;
+            background: rgba(82, 224, 164, 0.12);
+            color: var(--green);
+            border: 1px solid rgba(82, 224, 164, 0.25);
+            font-weight: 700;
+            white-space: nowrap;
+        }
+
+        #contain-0 {
+            width: min(1450px, calc(100% - 32px));
+            margin: 18px auto;
+            display: flex;
+            gap: 18px;
+            align-items: stretch;
+        }
+
+        #contain-1 {
+            width: 25%;
+        }
+
+        #contain-2 {
+            width: 50%;
+        }
+
+        #contain-3 {
+            width: 25%;
+        }
+
+        .panel {
+            min-height: calc(100vh - 145px);
+            border: 1px solid var(--line);
+            border-radius: var(--radius);
+            background: rgba(24, 32, 51, 0.76);
+            backdrop-filter: blur(14px);
+            box-shadow: var(--shadow);
+            padding: 18px;
+        }
+
+        .summary-grid {
+            display: grid;
+            gap: 14px;
+        }
+
+        .info-card {
+            position: relative;
+            overflow: hidden;
+            padding: 22px;
+            border-radius: 20px;
+            background: linear-gradient(145deg, var(--card), var(--card-2));
+            border: 1px solid var(--line);
+        }
+
+        .info-card::after {
+            content: "";
+            position: absolute;
+            right: -28px;
+            top: -28px;
+            width: 105px;
+            height: 105px;
+            border-radius: 50%;
+            background: rgba(124, 156, 255, 0.12);
+        }
+
+        .info-card.ganho::after {
+            background: rgba(82, 224, 164, 0.13);
+        }
+
+        .info-card.gasto::after {
+            background: rgba(255, 107, 122, 0.13);
+        }
+
+        .card-name {
+            position: relative;
+            z-index: 2;
+            color: var(--muted);
+            font-size: 15px;
+            font-weight: 700;
+            text-transform: uppercase;
+            letter-spacing: 0.8px;
+        }
+
+        .card-value {
+            position: relative;
+            z-index: 2;
+            margin-top: 12px;
+            font-size: clamp(25px, 2.3vw, 36px);
+            font-weight: 900;
+            letter-spacing: -1px;
+        }
+
+        .ganho .card-value {
+            color: var(--green);
+        }
+
+        .gasto .card-value {
+            color: var(--red);
+        }
+
+        .btn {
+            width: 100%;
+            border: 0;
+            cursor: pointer;
+            border-radius: 18px;
+            padding: 15px 18px;
+            color: var(--text);
+            background: linear-gradient(135deg, #6f8fff, #5dcbff);
+            font-weight: 900;
+            font-size: 15px;
+            box-shadow: 0 14px 35px rgba(124, 156, 255, 0.22);
+            transition: 0.2s ease;
+        }
+
+        .btn:hover {
+            transform: translateY(-2px);
+            filter: brightness(1.08);
+        }
+
+        .btn.secondary {
+            width: auto;
+            padding: 10px 13px;
+            border-radius: 12px;
+            background: rgba(124, 156, 255, 0.12);
+            color: var(--blue);
+            border: 1px solid rgba(124, 156, 255, 0.25);
+            box-shadow: none;
+        }
+
+        .section-title {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            margin-bottom: 14px;
+            gap: 12px;
+        }
+
+        .section-title h2 {
+            font-size: 20px;
+            letter-spacing: -0.3px;
+        }
+
+        .section-title span {
+            color: var(--muted);
+            font-size: 14px;
+        }
+
+        .chart-card {
+            border: 1px solid var(--line);
+            border-radius: 22px;
+            background: rgba(32, 42, 65, 0.72);
+            padding: 18px;
+            margin-bottom: 18px;
+        }
+
+        .chart-card h3 {
+            font-size: 17px;
+            margin-bottom: 4px;
+        }
+
+        .chart-card p {
+            color: var(--muted);
+            font-size: 14px;
+            margin-bottom: 16px;
+        }
+
+        .chart-box {
+            height: 280px;
+        }
+
+        #historico {
+            display: flex;
+            flex-direction: column;
+            gap: 12px;
+            max-height: calc(100vh - 215px);
+            overflow-y: auto;
+            padding-right: 4px;
+        }
+
+        #historico::-webkit-scrollbar {
+            width: 8px;
+        }
+
+        #historico::-webkit-scrollbar-thumb {
+            background: rgba(255, 255, 255, 0.16);
+            border-radius: 999px;
+        }
+
+        .history-card {
+            padding: 16px;
+            border-radius: 18px;
+            background: linear-gradient(145deg, rgba(37, 49, 77, 0.98), rgba(32, 42, 65, 0.98));
+            border: 1px solid var(--line);
+            transition: 0.2s ease;
+        }
+
+        .history-card:hover {
+            transform: translateY(-2px);
+            border-color: rgba(124, 156, 255, 0.35);
+        }
+
+        .history-top {
+            display: flex;
+            justify-content: space-between;
+            gap: 12px;
+            align-items: flex-start;
+        }
+
+        .history-name {
+            font-weight: 900;
+            font-size: 16px;
+        }
+
+        .history-date {
+            color: var(--muted);
+            font-size: 12px;
+            margin-top: 5px;
+        }
+
+        .history-value {
+            font-weight: 900;
+            white-space: nowrap;
+        }
+
+        .positive {
+            color: var(--green);
+        }
+
+        .negative {
+            color: var(--red);
+        }
+
+        .history-card .btn {
+            margin-top: 14px;
+        }
+
+        .empty {
+            color: var(--muted);
+            text-align: center;
+            padding: 28px 12px;
+            border: 1px dashed rgba(255, 255, 255, 0.15);
+            border-radius: 18px;
+        }
+
+        .modal-area {
+            position: fixed;
+            inset: 0;
+            display: none;
+            align-items: center;
+            justify-content: center;
+            padding: 18px;
+            z-index: 10;
+            background: rgba(6, 10, 18, 0.72);
+            backdrop-filter: blur(8px);
+        }
+
+        .modal-area.active {
+            display: flex;
+        }
+
+        .modal-card {
+            width: min(520px, 100%);
+            border-radius: 24px;
+            background: #1b2439;
+            border: 1px solid var(--line);
+            box-shadow: 0 30px 100px rgba(0, 0, 0, 0.55);
+            padding: 22px;
+            animation: openModal 0.18s ease;
+        }
+
+        @keyframes openModal {
+            from {
+                opacity: 0;
+                transform: scale(0.96) translateY(12px);
+            }
+            to {
+                opacity: 1;
+                transform: scale(1) translateY(0);
+            }
+        }
+
+        .modal-header {
+            display: flex;
+            justify-content: space-between;
+            align-items: flex-start;
+            gap: 16px;
+            margin-bottom: 18px;
+        }
+
+        .modal-header h2 {
+            font-size: 24px;
+            letter-spacing: -0.6px;
+        }
+
+        .modal-header p {
+            color: var(--muted);
+            margin-top: 5px;
+            font-size: 14px;
+        }
+
+        .close-btn {
+            border: 0;
+            width: 38px;
+            height: 38px;
+            border-radius: 12px;
+            cursor: pointer;
+            background: rgba(255, 255, 255, 0.08);
+            color: var(--text);
+            font-size: 22px;
+        }
+
+        .detail-line {
+            padding: 14px 0;
+            border-top: 1px solid var(--line);
+        }
+
+        .detail-line strong {
+            display: block;
+            color: var(--muted);
+            font-size: 13px;
+            margin-bottom: 7px;
+            text-transform: uppercase;
+            letter-spacing: 0.6px;
+        }
+
+        .detail-line span {
+            font-size: 18px;
+            font-weight: 800;
+        }
+
+        label {
+            display: block;
+            color: var(--muted);
+            font-size: 13px;
+            font-weight: 800;
+            text-transform: uppercase;
+            letter-spacing: 0.6px;
+            margin: 14px 0 8px;
+        }
+
+        input,
+        textarea {
+            width: 100%;
+            border: 1px solid var(--line);
+            outline: none;
+            border-radius: 15px;
+            background: rgba(255, 255, 255, 0.06);
+            color: var(--text);
+            padding: 14px;
+            font-size: 16px;
+        }
+
+        textarea {
+            min-height: 105px;
+            resize: vertical;
+        }
+
+        input:focus,
+        textarea:focus {
+            border-color: rgba(124, 156, 255, 0.7);
+        }
+
+        .form-help {
+            margin-top: 8px;
+            color: var(--muted);
+            font-size: 13px;
+            line-height: 1.4;
+        }
+
+        .form-actions {
+            display: flex;
+            gap: 12px;
+            margin-top: 18px;
+        }
+
+        .form-actions .btn {
+            flex: 1;
+        }
+
+        .btn.cancel {
+            background: rgba(255, 255, 255, 0.08);
+            box-shadow: none;
+            color: var(--text);
+        }
+
+        @media (max-width: 980px) {
+            header {
+                align-items: flex-start;
+                flex-direction: column;
+            }
+
+            #contain-0 {
+                flex-direction: column;
+            }
+
+            #contain-1,
+            #contain-2,
+            #contain-3 {
+                width: 100%;
+            }
+
+            .panel {
+                min-height: auto;
+            }
+
+            .summary-grid {
+                grid-template-columns: repeat(3, 1fr);
+            }
+
+            #historico {
+                max-height: none;
+            }
+        }
+
+        @media (max-width: 650px) {
+            body {
+                background: #121826;
+            }
+
+            header,
+            #contain-0 {
+                width: min(100% - 20px, 1450px);
+            }
+
+            header {
+                margin-top: 10px;
+                padding: 18px;
+            }
+
+            .summary-grid {
+                grid-template-columns: 1fr;
+            }
+
+            .chart-box {
+                height: 245px;
+            }
+
+            .form-actions {
+                flex-direction: column;
+            }
+        }
+    </style>
+</head>
+
+<body>
+    <header>
+        <div>
+            <h1>Sistema de Gestão de Vendas</h1>
+            <p>Dashboard com alterações, histórico e gráficos financeiros.</p>
+        </div>
+
+        <div class="status-pill">Online</div>
+    </header>
+
+    <div id="contain-0">
+        <div id="contain-1" class="panel">
+            <div class="summary-grid">
+                <div class="info-card">
+                    <p class="card-name">Total</p>
+                    <p class="card-value" id="totalValor">R$ 0,00</p>
+                </div>
+
+                <div class="info-card ganho">
+                    <p class="card-name">Ganhos</p>
+                    <p class="card-value" id="ganhosValor">R$ 0,00</p>
+                </div>
+
+                <div class="info-card gasto">
+                    <p class="card-name">Gastos</p>
+                    <p class="card-value" id="gastosValor">R$ 0,00</p>
+                </div>
+
+                <button class="btn" id="abrirAdicionar">
+                    Adicionar alteração
+                </button>
+            </div>
+        </div>
+
+        <div id="contain-2" class="panel">
+            <div class="section-title">
+                <div>
+                    <h2>Gráficos</h2>
+                    <span>Acompanhe as alterações e o resultado dos últimos meses.</span>
+                </div>
+            </div>
+
+            <div class="chart-card">
+                <h3>Valores alterados</h3>
+                <p>Mostra todos os valores adicionados no histórico.</p>
+                <div class="chart-box">
+                    <canvas id="graficoAlteracoes"></canvas>
+                </div>
+            </div>
+
+            <div class="chart-card">
+                <h3>Resultado dos últimos 12 meses</h3>
+                <p>Mostra quanto foi ganho ou perdido em cada mês.</p>
+                <div class="chart-box">
+                    <canvas id="graficoMeses"></canvas>
+                </div>
+            </div>
+        </div>
+
+        <div id="contain-3" class="panel">
+            <div class="section-title">
+                <div>
+                    <h2>Histórico</h2>
+                    <span>Últimas alterações</span>
+                </div>
+            </div>
+
+            <div id="historico"></div>
+        </div>
+    </div>
+
+    <div class="modal-area" id="modalDetalhes">
+        <div class="modal-card">
+            <div class="modal-header">
+                <div>
+                    <h2>Detalhes</h2>
+                    <p>Informações completas da alteração.</p>
+                </div>
+
+                <button class="close-btn fecharModal">&times;</button>
+            </div>
+
+            <div class="detail-line">
+                <strong>Nome</strong>
+                <span id="detalheNome"></span>
+            </div>
+
+            <div class="detail-line">
+                <strong>Valor</strong>
+                <span id="detalheValor"></span>
+            </div>
+
+            <div class="detail-line">
+                <strong>Descrição</strong>
+                <span id="detalheDescricao"></span>
+            </div>
+        </div>
+    </div>
+
+    <div class="modal-area" id="modalAdicionar">
+        <div class="modal-card">
+            <div class="modal-header">
+                <div>
+                    <h2>Adicionar alteração</h2>
+                    <p>Preencha nome, valor e descrição.</p>
+                </div>
+
+                <button class="close-btn fecharModal">&times;</button>
+            </div>
+
+            <form id="formAlteracao">
+                <label for="nomeInput">Nome</label>
+                <input id="nomeInput" type="text" placeholder="Ex: Venda de camisa" required>
+
+                <label for="valorInput">Valor</label>
+                <input id="valorInput" type="number" step="0.01" placeholder="Ex: 120 ou -50" required>
+                <p class="form-help">Use valor positivo para ganho e valor negativo para gasto. Exemplo: 150 ou -80.</p>
+
+                <label for="descricaoInput">Descrição</label>
+                <textarea id="descricaoInput" placeholder="Ex: Venda realizada pelo Instagram." required></textarea>
+
+                <div class="form-actions">
+                    <button class="btn cancel fecharModal" type="button">Cancelar</button>
+                    <button class="btn" type="submit">Salvar alteração</button>
+                </div>
+            </form>
+        </div>
+    </div>
+
+    <script src="https://cdn.jsdelivr.net/npm/chart.js"></script>
+
+    <script>
+        const alteracoes = [
+            {
+                nome: "Venda de produto",
+                valor: 350,
+                descricao: "Venda realizada para cliente novo.",
+                data: "2026-01-10"
+            },
+            {
+                nome: "Compra de material",
+                valor: -120,
+                descricao: "Compra de material para reposição.",
+                data: "2026-02-08"
+            },
+            {
+                nome: "Serviço mensal",
+                valor: 600,
+                descricao: "Pagamento de serviço mensal.",
+                data: "2026-03-12"
+            },
+            {
+                nome: "Manutenção",
+                valor: -90,
+                descricao: "Gasto com manutenção.",
+                data: "2026-04-03"
+            },
+            {
+                nome: "Venda extra",
+                valor: 240,
+                descricao: "Venda extra feita no mês.",
+                data: "2026-05-18"
+            }
+        ];
+
+        const formatoMoeda = new Intl.NumberFormat("pt-BR", {
+            style: "currency",
+            currency: "BRL"
+        });
+
+        const mesesNome = [
+            "Jan", "Fev", "Mar", "Abr", "Mai", "Jun",
+            "Jul", "Ago", "Set", "Out", "Nov", "Dez"
+        ];
+
+        const historico = document.getElementById("historico");
+        const modalDetalhes = document.getElementById("modalDetalhes");
+        const modalAdicionar = document.getElementById("modalAdicionar");
+
+        const totalValor = document.getElementById("totalValor");
+        const ganhosValor = document.getElementById("ganhosValor");
+        const gastosValor = document.getElementById("gastosValor");
+
+        let graficoAlteracoes;
+        let graficoMeses;
+
+        function abrirModal(modal) {
+            modal.classList.add("active");
+        }
+
+        function fecharModais() {
+            modalDetalhes.classList.remove("active");
+            modalAdicionar.classList.remove("active");
+        }
+
+        document.querySelectorAll(".fecharModal").forEach((botao) => {
+            botao.addEventListener("click", fecharModais);
+        });
+
+        document.querySelectorAll(".modal-area").forEach((modal) => {
+            modal.addEventListener("click", (evento) => {
+                if (evento.target === modal) {
+                    fecharModais();
+                }
+            });
+        });
+
+        document.getElementById("abrirAdicionar").addEventListener("click", () => {
+            abrirModal(modalAdicionar);
+        });
+
+        function abrirDetalhes(index) {
+            const item = alteracoes[index];
+
+            document.getElementById("detalheNome").textContent = item.nome;
+            document.getElementById("detalheValor").textContent = formatoMoeda.format(item.valor);
+            document.getElementById("detalheValor").className = item.valor >= 0 ? "positive" : "negative";
+            document.getElementById("detalheDescricao").textContent = item.descricao;
+
+            abrirModal(modalDetalhes);
+        }
+
+        function atualizarCardsResumo() {
+            const ganhos = alteracoes
+                .filter((item) => item.valor > 0)
+                .reduce((soma, item) => soma + item.valor, 0);
+
+            const gastos = alteracoes
+                .filter((item) => item.valor < 0)
+                .reduce((soma, item) => soma + Math.abs(item.valor), 0);
+
+            const total = ganhos - gastos;
+
+            totalValor.textContent = formatoMoeda.format(total);
+            ganhosValor.textContent = formatoMoeda.format(ganhos);
+            gastosValor.textContent = formatoMoeda.format(gastos);
+
+            totalValor.className = total >= 0 ? "card-value positive" : "card-value negative";
+        }
+
+        function renderizarHistorico() {
+            historico.innerHTML = "";
+
+            if (alteracoes.length === 0) {
+                historico.innerHTML = '<div class="empty">Nenhuma alteração adicionada ainda.</div>';
+                return;
+            }
+
+            alteracoes.slice().reverse().forEach((item, reverseIndex) => {
+                const index = alteracoes.length - 1 - reverseIndex;
+
+                const card = document.createElement("div");
+                card.className = "history-card";
+
+                const valorClasse = item.valor >= 0 ? "positive" : "negative";
+
+                card.innerHTML = `
+                    <div class="history-top">
+                        <div>
+                            <p class="history-name">${item.nome}</p>
+                            <p class="history-date">${formatarData(item.data)}</p>
+                        </div>
+
+                        <p class="history-value ${valorClasse}">
+                            ${formatoMoeda.format(item.valor)}
+                        </p>
+                    </div>
+
+                    <button class="btn secondary" onclick="abrirDetalhes(${index})">
+                        Ver mais
+                    </button>
+                `;
+
+                historico.appendChild(card);
+            });
+        }
+
+        function formatarData(dataISO) {
+            const data = new Date(dataISO + "T00:00:00");
+            return data.toLocaleDateString("pt-BR");
+        }
+
+        function atualizarGraficoAlteracoes() {
+            const labels = alteracoes.map((item, index) => `${index + 1}. ${item.nome}`);
+            const valores = alteracoes.map((item) => item.valor);
+
+            if (graficoAlteracoes) {
+                graficoAlteracoes.destroy();
+            }
+
+            graficoAlteracoes = new Chart(document.getElementById("graficoAlteracoes"), {
+                type: "line",
+                data: {
+                    labels: labels,
+                    datasets: [{
+                        label: "Valor",
+                        data: valores,
+                        tension: 0.4,
+                        fill: true
+                    }]
+                },
+                options: {
+                    responsive: true,
+                    maintainAspectRatio: false,
+                    plugins: {
+                        legend: {
+                            labels: {
+                                color: "#f5f7fb"
+                            }
+                        }
+                    },
+                    scales: {
+                        x: {
+                            ticks: {
+                                color: "#9aa7c2",
+                                maxRotation: 0,
+                                autoSkip: true
+                            },
+                            grid: {
+                                color: "rgba(255, 255, 255, 0.06)"
+                            }
+                        },
+                        y: {
+                            ticks: {
+                                color: "#9aa7c2",
+                                callback: (value) => formatoMoeda.format(value)
+                            },
+                            grid: {
+                                color: "rgba(255, 255, 255, 0.06)"
+                            }
+                        }
+                    }
+                }
+            });
+        }
+
+        function atualizarGraficoMeses() {
+            const anoAtual = new Date().getFullYear();
+
+            const resultadoMeses = Array(12).fill(0);
+
+            alteracoes.forEach((item) => {
+                const data = new Date(item.data + "T00:00:00");
+
+                if (data.getFullYear() === anoAtual) {
+                    resultadoMeses[data.getMonth()] += item.valor;
+                }
+            });
+
+            if (graficoMeses) {
+                graficoMeses.destroy();
+            }
+
+            graficoMeses = new Chart(document.getElementById("graficoMeses"), {
+                type: "bar",
+                data: {
+                    labels: mesesNome,
+                    datasets: [{
+                        label: "Resultado mensal",
+                        data: resultadoMeses
+                    }]
+                },
+                options: {
+                    responsive: true,
+                    maintainAspectRatio: false,
+                    plugins: {
+                        legend: {
+                            labels: {
+                                color: "#f5f7fb"
+                            }
+                        }
+                    },
+                    scales: {
+                        x: {
+                            ticks: {
+                                color: "#9aa7c2"
+                            },
+                            grid: {
+                                color: "rgba(255, 255, 255, 0.06)"
+                            }
+                        },
+                        y: {
+                            ticks: {
+                                color: "#9aa7c2",
+                                callback: (value) => formatoMoeda.format(value)
+                            },
+                            grid: {
+                                color: "rgba(255, 255, 255, 0.06)"
+                            }
+                        }
+                    }
+                }
+            });
+        }
+
+        function atualizarTela() {
+            atualizarCardsResumo();
+            renderizarHistorico();
+            atualizarGraficoAlteracoes();
+            atualizarGraficoMeses();
+        }
+
+        document.getElementById("formAlteracao").addEventListener("submit", (evento) => {
+            evento.preventDefault();
+
+            const nome = document.getElementById("nomeInput").value.trim();
+            const valor = Number(document.getElementById("valorInput").value);
+            const descricao = document.getElementById("descricaoInput").value.trim();
+
+            if (!nome || !valor || !descricao) {
+                return;
+            }
+
+            const hoje = new Date();
+
+            alteracoes.push({
+                nome: nome,
+                valor: valor,
+                descricao: descricao,
+                data: hoje.toISOString().split("T")[0]
+            });
+
+            evento.target.reset();
+            fecharModais();
+            atualizarTela();
+        });
+
+        atualizarTela();
+    </script>
+</body>
+</html>
